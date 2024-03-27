@@ -28,9 +28,10 @@ module.exports.login = async (req, res, next) => {
   }
 }
 
-module.exports.getById = async (req, res, next) => {
+module.exports.getByToken = async (req, res, next) => {
+  console.log(req)
   try {
-    const user = await User.findById(req.params.id); 
+    const user = await User.findById(req.userId); 
     res.status(200).json(user);
   } catch (err) {
     next(err);
