@@ -1,10 +1,13 @@
 const Order = require("../models/order");
+const User = require("../models/user");
 
 module.exports.add = async (req, res, next) => {
   try {
     const order = new Order(req.body);
     await order.save();
-    res.status(200).json(order);
+    await User.findByIdAndUpdate(req.body.userId,{$set:{cart:[]}})
+    const orders = await Order.find({ userId: req.body.userId })
+    res.status(200).json(orders);
   } catch (err) {
     next(err);
   }
